@@ -1,0 +1,243 @@
+<!-- Background of the top layout has been set to black to solve an issue with -->
+<!-- subtle color differences between the relative and the linear layouts. -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/puzzleGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="1dp" >
+
+        <!-- android:visibility="gone" > -->
+
+
+        <!-- The margins of the next layout will be programmatically changed in such a way that the -->
+        <!-- inner area (i.e. everything except margins/padding) of the layout has the same width as -->
+        <!-- visible part of the grid player. -->
+        <!-- The layout will only be filled with the timer. But note that we put another layout on -->
+        <!-- top of this layout for displaying the input mode image and text. -->
+
+
+        <com.klokisoft.mathdokuext.grid.ui.GridPlayerView
+            android:id="@+id/grid_player_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/solvedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_ui_solved_messsage"
+            android:textSize="@dimen/text_size_giant"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/input_mode_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/puzzleGrid"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/input_mode_normal_light"
+            tools:ignore="ContentDescription" />
+
+
+
+    <RelativeLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/puzzleGrid"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <TableLayout
+            android:id="@+id/digitButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableRow android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/digit1"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button1"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/digit2"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button2"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/digit3"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button3"
+                    android:textStyle="bold"/>
+            </TableRow>
+
+            <TableRow  android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/digit4"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button4"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/digit5"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button5"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/digit6"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button6"
+                    android:textStyle="bold"/>
+            </TableRow>
+
+            <TableRow android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/digit7"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button7"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/digit8"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button8"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/digit9"
+                    style="@style/btnStyle"
+                    android:layout_margin="@dimen/tiny_margin"
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_digits_landscape"
+                    android:text="@string/main_ui_button9"
+                    android:textStyle="bold"/>
+            </TableRow>
+
+            <!-- <TableRow> -->
+
+
+            <!-- <Button -->
+            <!-- android:id="@+id/digitC" -->
+            <!-- android:layout_margin="5dp" -->
+            <!-- android:layout_weight="1" -->
+            <!-- android:text="@string/main_ui_buttonC" -->
+            <!-- android:textSize="@dimen/controls_text_size_default" -->
+            <!-- android:textStyle="bold" -->
+            <!-- tools:ignore="ButtonStyle" /> -->
+            <!-- </TableRow> -->
+        </TableLayout>
+
+            <ImageButton
+                android:id="@+id/checkButton"
+                style="@style/btnImgStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/two_buttons"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_alignRight="@+id/kkcButton"
+                android:src="@drawable/icn_check"
+		        android:padding="@dimen/activity_vertical_margin"
+                tools:ignore="ContentDescription" />
+
+        <LinearLayout
+                android:id="@+id/two_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_above="@+id/kkcButton"
+                android:layout_alignRight="@+id/kkcButton"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:baselineAligned="false"
+                android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/undoButton"
+                style="@style/btnImgStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icn_backspace"
+		        android:padding="@dimen/activity_vertical_margin"
+                android:text="@string/main_ui_undo"
+                tools:ignore="ContentDescription"/>
+
+            <ImageButton
+                android:id="@+id/clearButton"
+                style="@style/btnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/activity_vertical_margin"
+                android:src="@drawable/icn_cancel"
+                android:text="@string/main_ui_clear"
+                tools:ignore="ContentDescription"/>
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/kkcButton"
+                style="@style/btnStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+		        android:ems="9"
+                android:lines="1"
+                android:text="@string/main_ui_kkc"/>
+
+            </RelativeLayout>
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:lines="1"
+        android:text="00:00"
+        android:textSize="@dimen/text_size_default"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

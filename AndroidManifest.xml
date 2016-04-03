@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.klokisoft.mathdokuext"
     android:installLocation="auto"
-    android:versionCode="121"
-    android:versionName="1.21" >
+    android:versionCode="130"
+    android:versionName="1.30" >
 
     <!-- Cannot yet upgrade to target SDK-version 18 due to a bug in the archive. The grid view -->
     <!-- in the archive won't be shown in case a chart is shown. -->
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="23" />
 
     <supports-screens
         android:anyDensity="true"

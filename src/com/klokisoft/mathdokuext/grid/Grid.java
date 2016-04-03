@@ -110,9 +110,9 @@ public class Grid {
 		mRowId = -1;
 		mSolvingAttemptId = -1;
 		mGridSize = 0;
-		mCells = new ArrayList<GridCell>();
-		mCages = new ArrayList<GridCage>();
-		mMoves = new ArrayList<CellChange>();
+		mCells = new ArrayList<>();
+		mCages = new ArrayList<>();
+		mMoves = new ArrayList<>();
 		mClearRedundantPossiblesInSameRowOrColumnCount = 0;
 		mSolvedListener = null;
 		mGridGeneratingParameters = new GridGeneratingParameters();
@@ -173,8 +173,7 @@ public class Grid {
 		}
 		else
 		{
-			// SASSA ovdje se dešava neki bug, možda je krivo sejvano, pa ima grešku u gridu
-			// izgleda da se to javlja kad ima window leak
+			// SASSA it seems there is a bug here where window leak has appeared
 			if (mCages.size() == 0)
 			{
 				return null;
@@ -285,7 +284,7 @@ public class Grid {
 
 	// Return the list of cells that are highlighted as invalid
 	public ArrayList<GridCell> invalidsHighlighted() {
-		ArrayList<GridCell> invalids = new ArrayList<GridCell>();
+		ArrayList<GridCell> invalids = new ArrayList<>();
 		for (GridCell cell : this.mCells)
 			if (cell.hasInvalidUserValueHighlight())
 				invalids.add(cell);
@@ -295,7 +294,7 @@ public class Grid {
 
 	public void addMove(CellChange move) {
 		if (mMoves == null) {
-			mMoves = new ArrayList<CellChange>();
+			mMoves = new ArrayList<>();
 		}
 
 		boolean identicalToLastMove = false;
@@ -412,8 +411,10 @@ public class Grid {
 	/**
 	 * Set the cell at the given (x,y) coordinates as the selected cell.
 	 * 
-	 * @param coordinates
-	 *            The (x,y) coordinates of the cell.
+	 * @param row
+	 *            row of the cell.
+	 * @param column
+	 *            column of the cell.
 	 * @return The selected cell.
 	 */
 	public GridCell setSelectedCell(int row, int column) {
@@ -514,7 +515,7 @@ public class Grid {
 
 	/**
 	 * Converts the definition of this grid to a string. This is a shortcut for
-	 * calling {@link #toGridDefinitionString(ArrayList, ArrayList)}.
+	 * calling {@link #toGridDefinitionString(ArrayList, ArrayList, GridGeneratingParameters)}.
 	 * 
 	 * @return A unique string representation of the grid.
 	 */
@@ -605,7 +606,7 @@ public class Grid {
 
 		mRevealed = Boolean.parseBoolean(viewParts[index++]);
 		mClearRedundantPossiblesInSameRowOrColumnCount = Integer
-				.parseInt(viewParts[index++]);
+				.parseInt(viewParts[index]);
 
 		return true;
 	}
@@ -615,10 +616,6 @@ public class Grid {
 	 * successfully inserted into the database (true), or an error occurred in
 	 * the process (false).
 	 * 
-	 * @param gameSeed
-	 *            The game seed used to generate this grid.
-	 * @param generatorRevisionNumber
-	 *            The revision number of the generator used to create the grid.
 	 * @param gridSize
 	 *            The size of grid.
 	 * @param cells
@@ -627,6 +624,8 @@ public class Grid {
 	 *            The list of cages used in the grid.
 	 * @param active
 	 *            The status of the grid.
+	 * @param gridGeneratingParameters
+	 *            Parameters to use.
 	 */
 	public boolean create(int gridSize, ArrayList<GridCell> cells,
 			ArrayList<GridCage> cages, boolean active,
@@ -905,7 +904,7 @@ public class Grid {
 	 * @return True in case everything has been saved. False otherwise.
 	 */
 	private boolean save(boolean saveDueToUpgrade) {
-		boolean saved = true;
+		boolean saved;
 
 		synchronized (mLock) { // Avoid saving game at the same time as
 								// creating puzzle
@@ -924,10 +923,10 @@ public class Grid {
 			// In case a replay of the grid is finished the statistics which
 			// have to included in the cumulative and the historic statistics
 			// should be changed to the current solving attempt.
-			if (saved && mActive == false
+			if (saved && !mActive
 					&& mGridStatistics.getReplayCount() > 0
-					&& mGridStatistics.isIncludedInStatistics() == false
-					&& saveDueToUpgrade == false) {
+					&& !mGridStatistics.isIncludedInStatistics()
+					&& !saveDueToUpgrade) {
 				new StatisticsDatabaseAdapter()
 						.updateSolvingAttemptToBeIncludedInStatistics(mRowId,
 								mSolvingAttemptId);
@@ -1263,7 +1262,7 @@ public class Grid {
 			gridCage.setCageId(cageIndex++);
 
 			// Add cage to cages list
-			if (mCages.add(gridCage) == false) {
+			if (!mCages.add(gridCage)) {
 				return false;
 			}
 		}

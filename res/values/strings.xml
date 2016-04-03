@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
 
     <!-- Notes for translators: -->
     <!-- Thank you for your help in translating MathDokuExt. Please follow guidelines below when -->
@@ -78,7 +80,7 @@
     <!-- The heading and body of the section refering to the list of changes. -->
     <!-- Note for translators: Changes are only available in English. Please mention this in this field. -->
     <string name="changelog_changes_title">Changes</string>
-    <string name="changelog_changes_body">    ver 1.21\n\n - new options on menu to fill all possibles or get all from Digitalc\n - long touch on single digit in grid puts solution in a cell\n  - long touch on Digitcalc button immediately returns possible digits in a selected cage</string>
+    <string name="changelog_changes_body">    ver 1.30\n\n - fixed show results on Android 6.0</string>
 
     <!-- The heading and body of the section referring to the list of issues. -->
     <!-- Note for translators: Only issues written in English will be dealt with. Please mention this in field changelog_issues_body. -->

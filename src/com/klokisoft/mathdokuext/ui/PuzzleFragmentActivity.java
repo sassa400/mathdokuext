@@ -52,7 +52,7 @@ import android.widget.Toast;
 
 public class PuzzleFragmentActivity extends AppFragmentActivity implements
 		PuzzleFragment.OnGridFinishedListener {
-	public final static String TAG = "MathDokuExt.PuzzleFragmentActivity";
+	public final static String TAG = "PuzzleFragmentActivity";
 
 	// Background tasks for generating a new puzzle and converting game files
 	public DialogPresentingGridGenerator mDialogPresentingGridGenerator;
@@ -71,7 +71,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 	public enum WHICH_DIALOG {
 		HELP_WELCOME, HELP_NO_WELCOME, CHANGES, 
 		NEW_GAME_CANCELABLE, NEW_GAME_NOT_CANCELABLE,
-		RESTART, PICTURENALITY;	
+		RESTART, PICTURENALITY
 	}
 
 	// Object to save data on a configuration change. Note: for the puzzle
@@ -108,7 +108,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 
 		// Check if database is consistent.
 		if (DevelopmentHelper.mMode == Mode.DEVELOPMENT) {
-			if (DevelopmentHelper.checkDatabaseConsistency(this) == false) {
+			if (!DevelopmentHelper.checkDatabaseConsistency(this)) {
 				// Skip remainder of onCreate because further database access
 				// can result in a forced close.
 				return;
@@ -457,7 +457,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 	/**
 	 * Finishes the upgrading process after the game files have been converted.
 	 * @param firstCall 
-	 * 
+	 * 	          If first call
 	 * @param previousInstalledVersion
 	 *            Latest version of MathDoku which was actually used.
 	 * @param currentVersion
@@ -544,7 +544,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 
 		// Enable the statistics as soon as the first game has been
 		// finished.
-		if (mMathDokuPreferences.isStatisticsAvailable() == false) {
+		if (!mMathDokuPreferences.isStatisticsAvailable()) {
 			mMathDokuPreferences.setStatisticsAvailable();
 			setNavigationDrawer();
 		}
@@ -555,7 +555,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 		// Enable the archive as soon as 5 games have been solved. Note: as the
 		// gird is actually not yet saved in the database at this moment the
 		// check on the number of completed games is lowered with 1.
-		if (mMathDokuPreferences.isArchiveAvailable() == false
+		if (!mMathDokuPreferences.isArchiveAvailable()
 				&& new GridDatabaseAdapter().countGrids(StatusFilter.SOLVED,
 						SizeFilter.ALL) >= 4) {
 			mMathDokuPreferences.setArchiveVisible();
@@ -667,7 +667,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 //		tv = (TextView) view.findViewById(R.id.help_project_home_link);
 //		tv.setText(Util.PROJECT_HOME);
 
-		Dialog dialog = new AlertDialog.Builder(this)
+		return new AlertDialog.Builder(this)
 				.setTitle(
 						getResources().getString(R.string.application_name)
 								+ (DevelopmentHelper.mMode == Mode.DEVELOPMENT ? " r"
@@ -694,7 +694,6 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 									int whichButton) {
 							}
 						}).create();
-			return dialog;
 	}
 
 	/**
@@ -718,7 +717,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 //		textView.setText(Util.PROJECT_HOME + "issues.php");
 		textView.setText("klokisoft@gmail.com");
 
-		Dialog dialog = new AlertDialog.Builder(this)
+		return new AlertDialog.Builder(this)
 				.setTitle(
 						getResources().getString(R.string.application_name)
 								+ (DevelopmentHelper.mMode == Mode.DEVELOPMENT ? " r"
@@ -736,14 +735,13 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 								//
 							}
 				}).create();
-		return dialog;
 	}
 	/**
 	 * Handles clearing of the entire grid. The grid will only be cleared after
 	 * the user has confirmed clearing.
 	 */
 	protected Dialog createDialogRestart() {
-		Dialog dialog = new AlertDialog.Builder(this)
+		return new AlertDialog.Builder(this)
 				.setTitle(R.string.dialog_clear_grid_confirmation_title)
 				.setMessage(R.string.dialog_clear_grid_confirmation_message)
 				.setIcon(android.R.drawable.ic_dialog_alert)
@@ -769,7 +767,6 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 //								setClearAndUndoButtonVisibility(null);
 							}
 						}).create();
-		return dialog;
 	}
 
 	/**
@@ -799,7 +796,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 
 		// Populate the spinner. Initial value is set to value used for
 		// generating the previous puzzle.
-		ArrayAdapter<String> adapterStatus = new ArrayAdapter<String>(this,
+		ArrayAdapter<String> adapterStatus = new ArrayAdapter<>(this,
 				android.R.layout.simple_spinner_item, puzzleSizes);
 		adapterStatus
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -879,8 +876,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 
 						// Start a new game with specified parameters
 						startNewGame(gridSize,
-								(puzzleParameterDisplayOperatorsCheckBox
-										.isChecked() == false),
+								!puzzleParameterDisplayOperatorsCheckBox.isChecked(),
 								puzzleComplexity);
 					}
 				});
@@ -895,7 +891,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 			return null;
 		}
 
-		Dialog dialog = new AlertDialog.Builder(this)
+		return new AlertDialog.Builder(this)
 				.setTitle(R.string.dialog_reveal_solution_confirmation_title)
 				.setMessage(
 						R.string.dialog_reveal_solution_confirmation_message)
@@ -918,7 +914,6 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 								mPuzzleFragment.revealSolution();
 							}
 						}).create();
-		return dialog;
 	}
 
 
@@ -958,12 +953,12 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 		if (intent != null) {
 			Bundle bundle = intent.getExtras();
 
-			if (bundle != null) {
+//			if (bundle != null) {
 //				if (bundle
 //						.getBoolean(SharedPuzzleActivity.RESTART_LAST_GAME_SHARED_PUZZLE)) {
 //					restartLastGame();
 //				}
-			}
+//			}
 		}
 
 		super.onNewIntent(intent);
@@ -975,13 +970,14 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 	 * @param solvingAttemptId
 	 *            The solving attempt for which the grid has to be replayed.
 	 * @return
+	 * 			  True if successful
 	 */
 	private boolean replayPuzzle(int solvingAttemptId) {
 		// Load the grid for the returned solving attempt id and reset the grid
 		// so it can be replayed.
 		Grid grid = new Grid();
 		if (grid.load(solvingAttemptId)) {
-			if (grid.isActive() == false) {
+			if (!grid.isActive()) {
 				grid.replay();
 			}
 
@@ -997,6 +993,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 	 * Reload the finished game currently displayed.
 	 * 
 	 * @param view
+	 * 		view
 	 */
 	public void onClickReloadGame(View view) {
 		if (mArchiveFragment != null) {
@@ -1008,6 +1005,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 	 * Start new game when click
 	 * 
 	 * @param view
+	 * 		view
 	 */
 	@SuppressWarnings("deprecation")
 	public void onClickNewGame(View view) {
@@ -1059,15 +1057,15 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 		// Determine the item which have to be shown in the drawer.
 		boolean openDrawer = false;
 		boolean mDrawerIconVisible = false;
-		ArrayList<String> navigationDrawerItems = new ArrayList<String>();
+		ArrayList<String> navigationDrawerItems = new ArrayList<>();
 		navigationDrawerItems.add(getResources().getString(
 				R.string.action_bar_subtitle_puzzle_fragment));
 		if (mMathDokuPreferences.isArchiveAvailable()) {
 			String string = getResources().getString(R.string.action_archive);
 			navigationDrawerItems.add(string);
-			if (openDrawer == false && mNavigationDrawerItems != null) {
-				openDrawer = (Arrays.asList(mNavigationDrawerItems).contains(
-						string) == false);
+			if (!openDrawer && mNavigationDrawerItems != null) {
+				openDrawer = (!Arrays.asList(mNavigationDrawerItems).contains(
+						string));
 			}
 			mDrawerIconVisible = true;
 		}
@@ -1075,9 +1073,9 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 			String string = getResources()
 					.getString(R.string.action_statistics);
 			navigationDrawerItems.add(string);
-			if (openDrawer == false && mNavigationDrawerItems != null) {
-				openDrawer = (Arrays.asList(mNavigationDrawerItems).contains(
-						string) == false);
+			if (!openDrawer && mNavigationDrawerItems != null) {
+				openDrawer = (!Arrays.asList(mNavigationDrawerItems).contains(
+						string));
 			}
 			mDrawerIconVisible = true;
 		}
@@ -1144,7 +1142,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 				.getNavigationDrawerPainter().getBackgroundColor());
 
 		// Set the adapter for the list view containing the navigation items
-		mDrawerListView.setAdapter(new ArrayAdapter<String>(this,
+		mDrawerListView.setAdapter(new ArrayAdapter<>(this,
 				R.layout.navigation_drawer_list_item, mNavigationDrawerItems));
 
 		// Set the list's click listener
@@ -1173,7 +1171,7 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 	 */
 	protected Dialog createDialogPicturenality() 
 	{
-		Dialog dialog = new AlertDialog.Builder(this)
+		return new AlertDialog.Builder(this)
 				.setTitle(R.string.dialog_picturenality_download_confirmation_title)
 				.setMessage(R.string.dialog_picturenality_download_confirmation_message)
 				.setIcon(android.R.drawable.ic_dialog_alert)
@@ -1205,7 +1203,6 @@ public class PuzzleFragmentActivity extends AppFragmentActivity implements
 							    }
 							}
 						}).create();
-		return dialog;
 	}
 
 }

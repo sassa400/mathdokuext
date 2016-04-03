@@ -172,6 +172,8 @@ public class GridViewerView extends View {
 		int measuredWidth = measure(widthMeasureSpec);
 		int measuredHeight = measure(heightMeasureSpec);
 
+		if (measuredHeight == 0)
+			measuredHeight = measuredWidth;
 		// Get the maximum space available for the grid. As it is a square we
 		// need the minimum of width and height.
 		int maxSize = Math.min(measuredWidth, measuredHeight);
@@ -227,13 +229,11 @@ public class GridViewerView extends View {
 	}
 
 	private int measure(int measureSpec) {
-		int specSize = MeasureSpec.getSize(measureSpec);
-
-		return (specSize);
+		return (MeasureSpec.getSize(measureSpec));
 	}
 
 	/**
-	 * Sets the {@link DigitPositionGridType} used to position the digit buttons
+	 * Sets the {@link DigitPositionGrid} used to position the digit buttons
 	 * for reuse when drawing the maybe values.
 	 * 
 	 * @param digitPositionGrid

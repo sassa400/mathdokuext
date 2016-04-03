@@ -25,7 +25,7 @@ public class GridPlayerView extends GridViewerView {
 	private OnInputModeChangedListener mOnInputModeChangedListener;
 
 	public interface OnInputModeChangedListener {
-		public abstract void onInputModeChanged(GridInputMode inputMode);
+		void onInputModeChanged(GridInputMode inputMode);
 	}
 
     GestureDetector gestureDetector;
@@ -120,7 +120,7 @@ public class GridPlayerView extends GridViewerView {
 		int oldValue = selectedCell.getUserValue();
 
 		if (newValue == 0) { // Clear Button
-			if (selectedCell.isEmpty() == false) {
+			if (!selectedCell.isEmpty()) {
 				selectedCell.clearPossibles();
 				selectedCell.setUserValue(0);
 				mGrid.getGridStatistics().increaseCounter(
@@ -188,7 +188,7 @@ public class GridPlayerView extends GridViewerView {
 		}
 
 		// Check the cage math
-		if (selectedCell.getCage().checkCageMathsCorrect(false) == false) {
+		if (!selectedCell.getCage().checkCageMathsCorrect(false)) {
 			if (TipBadCageMath.toBeDisplayed(mPreferences)) {
 				new TipBadCageMath(mContext).show();
 			}
@@ -299,7 +299,7 @@ public class GridPlayerView extends GridViewerView {
 	 * Register the listener to call in case the ticker tape for the hints has
 	 * to be set.
 	 * 
-	 * @param onHintChangedListener
+	 * @param onInputChangedModeListener
 	 *            The listener to call in case a hint has to be set.
 	 */
 	public void setOnInputModeChangedListener(
@@ -313,7 +313,6 @@ public class GridPlayerView extends GridViewerView {
 	 * @param event
 	 *            The event which is registered as the touch down event of the
 	 *            swipe motion.
-	 * @return True in case a grid cell has been touched. False otherwise.
 	 */
 	protected void setTouchDownEvent(MotionEvent event) 
 	{
